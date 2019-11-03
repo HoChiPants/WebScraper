@@ -63,6 +63,11 @@ namespace WebScraper
             {
                 salenium = new Salenium();
                 setDataGrid(salenium.getEnrollments("https://student.apps.utah.edu/uofu/stu/ClassSchedules/main/1" + _year + _semester + "/class_list.html?subject=CS", _year,_semester, textBox3.Text));
+                Year.Text = string.Empty;
+                Semester.Text = string.Empty;
+                _year = null;
+                _semester = 0;
+                textBox3.Text = string.Empty;
             }
             else if (_dep_num != null)
             {
@@ -81,6 +86,7 @@ namespace WebScraper
                     textBox2.Text += newLine;
                 }
                 textBox1.Clear();
+                _dep_num = null;
             }
             else
             {
@@ -105,9 +111,14 @@ namespace WebScraper
 
         private void setDataGrid(Dictionary<int,List<string>> dict)
         {
+            if(dict == null)
+            {
+                MessageBox.Show("There was an error with the connection" + Environment.NewLine + "Please try again");
+                return;
+            }
             foreach (int col in dict.Keys)
             {
-                dataGridView1.Rows.Add(dict[col][0],dict[col][1], dict[col][2], dict[col][3], dict[col][4], getsemester(dict[col][5]), dict[col][6], dict[col][7]);
+                dataGridView1.Rows.Add(dict[col][0],dict[col][1], dict[col][2], dict[col][3], dict[col][6], getsemester(dict[col][4]), dict[col][5], dict[col][7]);
             }
     
         }

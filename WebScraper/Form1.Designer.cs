@@ -48,6 +48,7 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.save = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -103,7 +104,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(824, 50);
+            this.label2.Location = new System.Drawing.Point(807, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(376, 20);
             this.label2.TabIndex = 4;
@@ -112,7 +113,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(915, 70);
+            this.label3.Location = new System.Drawing.Point(915, 48);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(136, 20);
             this.label3.TabIndex = 5;
@@ -231,11 +232,22 @@
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(807, 66);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(310, 43);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "If you would like multiple, please search them individually. They will be added b" +
+    "elow";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 736);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.save);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox3);
@@ -278,6 +290,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button save;
+        private System.Windows.Forms.Label label5;
     }
 }
 
