@@ -17,6 +17,7 @@ namespace WebScraper
         private string _year;
         private int _semester = 0;
         private static Salenium salenium;
+        private bool _unlimited;
         
 
         public Form1()
@@ -67,7 +68,7 @@ namespace WebScraper
             {
                 //calls the get enrolments for the webpage to get all the data it wants
                 salenium = new Salenium();
-                setDataGrid(salenium.getEnrollments("https://student.apps.utah.edu/uofu/stu/ClassSchedules/main/1" + _year + _semester + "/class_list.html?subject=CS", _year,_semester, textBox3.Text));
+                setDataGrid(salenium.getEnrollments("https://student.apps.utah.edu/uofu/stu/ClassSchedules/main/1" + _year + _semester + "/class_list.html?subject=CS", _year,_semester, textBox3.Text, _unlimited));
                 //clear year and semster global variables and clears the text box
                 makeAllNull();
             }
@@ -205,9 +206,17 @@ namespace WebScraper
             Year.Text = "Year";
             Semester.Text = "Semester";
             textBox1.Text = string.Empty;
-            textBox2.Text = string.Empty;
             textBox3.Text = string.Empty;
+            unlimited.Checked = false;
+            
         }
 
+        private void unlimited_CheckedChanged(object sender, EventArgs e)
+        {
+            if(unlimited.Checked)
+                {
+                _unlimited = true;
+            }
+        }
     }
 }

@@ -29,15 +29,7 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Semester = new System.Windows.Forms.ComboBox();
-            this.Year = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.GetData = new System.Windows.Forms.Button();
             this.DepNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.CourseNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseCredits = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,10 +37,19 @@
             this.CourseSemester = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CourseDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.Semester = new System.Windows.Forms.ComboBox();
+            this.Year = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.GetData = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.save = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.unlimited = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,6 +72,62 @@
             this.dataGridView1.Size = new System.Drawing.Size(621, 537);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // DepNum
+            // 
+            this.DepNum.HeaderText = "Department";
+            this.DepNum.MinimumWidth = 8;
+            this.DepNum.Name = "DepNum";
+            this.DepNum.Width = 150;
+            // 
+            // CourseNum
+            // 
+            this.CourseNum.HeaderText = "Course Number";
+            this.CourseNum.MinimumWidth = 8;
+            this.CourseNum.Name = "CourseNum";
+            this.CourseNum.Width = 150;
+            // 
+            // CourseCredits
+            // 
+            this.CourseCredits.HeaderText = "Course Credits";
+            this.CourseCredits.MinimumWidth = 8;
+            this.CourseCredits.Name = "CourseCredits";
+            this.CourseCredits.Width = 150;
+            // 
+            // CourseTitle
+            // 
+            this.CourseTitle.HeaderText = "CourseTitle";
+            this.CourseTitle.MinimumWidth = 8;
+            this.CourseTitle.Name = "CourseTitle";
+            this.CourseTitle.Width = 150;
+            // 
+            // CourseEnrolment
+            // 
+            this.CourseEnrolment.HeaderText = "Course Enrolment";
+            this.CourseEnrolment.MinimumWidth = 8;
+            this.CourseEnrolment.Name = "CourseEnrolment";
+            this.CourseEnrolment.Width = 150;
+            // 
+            // CourseSemester
+            // 
+            this.CourseSemester.HeaderText = "Course Semester";
+            this.CourseSemester.MinimumWidth = 8;
+            this.CourseSemester.Name = "CourseSemester";
+            this.CourseSemester.Width = 150;
+            // 
+            // CourseYear
+            // 
+            this.CourseYear.HeaderText = "Course Year";
+            this.CourseYear.MinimumWidth = 8;
+            this.CourseYear.Name = "CourseYear";
+            this.CourseYear.Width = 150;
+            // 
+            // CourseDescription
+            // 
+            this.CourseDescription.HeaderText = "Course Descritpion";
+            this.CourseDescription.MinimumWidth = 8;
+            this.CourseDescription.Name = "CourseDescription";
+            this.CourseDescription.Width = 150;
             // 
             // label1
             // 
@@ -137,13 +194,6 @@
             this.GetData.UseVisualStyleBackColor = true;
             this.GetData.Click += new System.EventHandler(this.GetData_Click);
             // 
-            // DepNum
-            // 
-            this.DepNum.HeaderText = "Department";
-            this.DepNum.MinimumWidth = 8;
-            this.DepNum.Name = "DepNum";
-            this.DepNum.Width = 150;
-            // 
             // textBox2
             // 
             this.textBox2.AllowDrop = true;
@@ -154,55 +204,6 @@
             this.textBox2.Size = new System.Drawing.Size(506, 234);
             this.textBox2.TabIndex = 8;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // CourseNum
-            // 
-            this.CourseNum.HeaderText = "Course Number";
-            this.CourseNum.MinimumWidth = 8;
-            this.CourseNum.Name = "CourseNum";
-            this.CourseNum.Width = 150;
-            // 
-            // CourseCredits
-            // 
-            this.CourseCredits.HeaderText = "Course Credits";
-            this.CourseCredits.MinimumWidth = 8;
-            this.CourseCredits.Name = "CourseCredits";
-            this.CourseCredits.Width = 150;
-            // 
-            // CourseTitle
-            // 
-            this.CourseTitle.HeaderText = "CourseTitle";
-            this.CourseTitle.MinimumWidth = 8;
-            this.CourseTitle.Name = "CourseTitle";
-            this.CourseTitle.Width = 150;
-            // 
-            // CourseEnrolment
-            // 
-            this.CourseEnrolment.HeaderText = "Course Enrolment";
-            this.CourseEnrolment.MinimumWidth = 8;
-            this.CourseEnrolment.Name = "CourseEnrolment";
-            this.CourseEnrolment.Width = 150;
-            // 
-            // CourseSemester
-            // 
-            this.CourseSemester.HeaderText = "Course Semester";
-            this.CourseSemester.MinimumWidth = 8;
-            this.CourseSemester.Name = "CourseSemester";
-            this.CourseSemester.Width = 150;
-            // 
-            // CourseYear
-            // 
-            this.CourseYear.HeaderText = "Course Year";
-            this.CourseYear.MinimumWidth = 8;
-            this.CourseYear.Name = "CourseYear";
-            this.CourseYear.Width = 150;
-            // 
-            // CourseDescription
-            // 
-            this.CourseDescription.HeaderText = "Course Descritpion";
-            this.CourseDescription.MinimumWidth = 8;
-            this.CourseDescription.Name = "CourseDescription";
-            this.CourseDescription.Width = 150;
             // 
             // textBox3
             // 
@@ -242,11 +243,23 @@
     "elow";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // unlimited
+            // 
+            this.unlimited.AutoSize = true;
+            this.unlimited.Location = new System.Drawing.Point(655, 113);
+            this.unlimited.Name = "unlimited";
+            this.unlimited.Size = new System.Drawing.Size(101, 24);
+            this.unlimited.TabIndex = 13;
+            this.unlimited.Text = "Unlimited";
+            this.unlimited.UseVisualStyleBackColor = true;
+            this.unlimited.CheckedChanged += new System.EventHandler(this.unlimited_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 736);
+            this.Controls.Add(this.unlimited);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.save);
             this.Controls.Add(this.label4);
@@ -291,6 +304,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox unlimited;
     }
 }
 

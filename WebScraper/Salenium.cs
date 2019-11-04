@@ -20,7 +20,7 @@ namespace WebScraper
         public Salenium()
         {
             _driver = new ChromeDriver();
-            wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(7));
         }
 
         //This is to get the credits and description. The first parameter is the course name, the second is if you only want the description or both. This is because this method is called by another and the driver needs to stay up
@@ -107,7 +107,7 @@ namespace WebScraper
 
 
         //This is for finding all the enrollments and returning a dictionary of the classes with their information.
-        public Dictionary<int,List<string>> getEnrollments(string url,string year, int semester, string count)
+        public Dictionary<int,List<string>> getEnrollments(string url,string year, int semester, string count, bool unlimited)
         {
             try
             {
@@ -152,10 +152,11 @@ namespace WebScraper
                         });
                         totalcounter++;
                     }
-                    if (totalcounter == Int32.Parse(count))
-                    {
-                        break;
-                    }
+                        if (!unlimited && totalcounter == Int32.Parse(count))
+                        {
+                            break;
+                        }
+                    
                 }
                 //for all the values in the dicitonary, get the course name and search for the description and credits on a different website
                 foreach (var w in finalValues.Keys)
