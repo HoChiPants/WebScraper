@@ -21,6 +21,7 @@ namespace WebScraper
 
         public Form1()
         {
+            //pupulates the drop down for chosing semester and year
             InitializeComponent();
             Semester.Items.Add("Spring");
             Semester.Items.Add("Summer");
@@ -33,6 +34,7 @@ namespace WebScraper
 
         private void Semester_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //gives numerical value for spring, summer, or fall and sets the global variable to keep track
             if (Semester.SelectedItem.ToString() == "Spring")
             {
                 _semester = 4;
@@ -49,6 +51,7 @@ namespace WebScraper
 
         private void Year_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //sets the year and makes sure its two digits
             string temp = Year.SelectedItem.ToString();
             if (temp.Length == 1)
             {
@@ -59,10 +62,13 @@ namespace WebScraper
 
         private void GetData_Click(object sender, EventArgs e)
         {
+            //There are three options for when get data is selected. First, you put in the year and semester. Second, you put in the class. Third, you havent put in anything
             if (_year != null && _semester != 0)
             {
+                //calls the get enrolments for the webpage to get all the data it wants
                 salenium = new Salenium();
                 setDataGrid(salenium.getEnrollments("https://student.apps.utah.edu/uofu/stu/ClassSchedules/main/1" + _year + _semester + "/class_list.html?subject=CS", _year,_semester, textBox3.Text));
+                //clear year and semster global variables and clears the text box
                 Year.Text = string.Empty;
                 Semester.Text = string.Empty;
                 _year = null;
@@ -71,31 +77,37 @@ namespace WebScraper
             }
             else if (_dep_num != null)
             {
+                //calls get description with the class
                 salenium = new Salenium();
-                string des = salenium.getDescription(_dep_num);
+                string des = salenium.getCreditsAndDesc(_dep_num,true)[1];
                 string newLine = Environment.NewLine;
+                //if a class could not be found
                 if (des == null)
                 {
                     MessageBox.Show("Class not found." + newLine + "Check syntax and try again");
                 }
                 else
                 {
+                    //formats the textbox to loook better
                     textBox2.Text += _dep_num + ":" + newLine;
                     textBox2.Text += des;
                     textBox2.Text += newLine;
                     textBox2.Text += newLine;
                 }
+                //clear the text box and the global variable
                 textBox1.Clear();
                 _dep_num = null;
             }
             else
             {
+                //an error message to have them put in data
                 MessageBox.Show("Please choose either a year and semester or a course");
             }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            //sets global variable
             _dep_num = textBox1.Text;
         }
 
@@ -118,6 +130,7 @@ namespace WebScraper
             }
             foreach (int col in dict.Keys)
             {
+                //pupulates the datagridview with the dictionary of data you just retrieved
                 dataGridView1.Rows.Add(dict[col][0],dict[col][1], dict[col][2], dict[col][3], dict[col][6], getsemester(dict[col][4]), dict[col][5], dict[col][7]);
             }
     
@@ -130,6 +143,7 @@ namespace WebScraper
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
+            //makes sure the amount of courses you want is a number and not letters
             if(System.Text.RegularExpressions.Regex.IsMatch(textBox3.Text, "[^0-9]"))
             {
                 MessageBox.Show("please use only numbers" + Environment.NewLine + "Thanks");
@@ -149,6 +163,7 @@ namespace WebScraper
             }
             else
             {
+                //saves the datagridview as a csv file format
                 var sb = new StringBuilder();
 
                 var headers = dataGridView1.Columns.Cast<DataGridViewColumn>();
@@ -172,6 +187,7 @@ namespace WebScraper
 
         private string getsemester (string sem)
         {
+            //sets the semester from numerical to string
             if (sem == "4" )
             {
                 return "Spring";

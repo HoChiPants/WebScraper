@@ -19,83 +19,17 @@ namespace WebScraper
         public Salenium()
         {
             _driver = new ChromeDriver();
-            wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(9));
+            wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
         }
+        
 
-        //This is to get the description of a certain class and return it a string
-        public string getDescription(string course)
+
+        //This is to get the credits and description. The first parameter is the course name, the second is if you only want the description or both. This is because this method is called by another and the driver needs to stay up
+        public List<string> getCreditsAndDesc(string course, bool once)
         {
             try
             {
-                _driver.Navigate().GoToUrl("https://catalog.utah.edu");
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"top\"]/div/div[3]/div/nav/ul/li[3]")));
-                var coursepath = _driver.FindElement(By.XPath("//*[@id=\"top\"]/div/div[3]/div/nav/ul/li[3]"));
-                coursepath.Click();
-                coursepath = _driver.FindElement(By.Id("Search"));
-                coursepath.SendKeys(course);
-                //check here to see if the course name is the same as the link
-                try
-                {
-                    wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a")));
-                    coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a"));
-                    if(coursepath.Text != course)
-                    {
-                        _driver.Quit();
-                        return null;
-                    }
-                }
-                catch
-                {
-                    try
-                    {
-                        coursepath = _driver.FindElement(By.XPath("//*[@id=\"kuali-catalog-main\"]/div/div[1]/div[1]/button/i/i"));
-                        coursepath.Click();
-                        coursepath = _driver.FindElement(By.Id("Search"));
-                        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-                        coursepath.SendKeys(course);
-                        wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a")));
-                        coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a"));
-                    }
-                    catch
-                    {
-                        _driver.Quit();
-                        return null;
-                    }
-
-                }
-                coursepath.Click();
-                wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div")));
-                try
-                {
-                    coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[6]/div/div"));
-
-                    if (coursepath.Text.Length < 50)
-                    {
-                        coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div"));
-                    }
-                }
-                catch
-                {
-                    coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div"));
-                }
-                string description = coursepath.Text;
-                _driver.Quit();
-                return description;
-            }
-            catch
-            {
-                _driver.Quit();
-                return null;
-            }
-
-        }
-
-
-        //This is to get the credits for the classes
-        private List<string> getCreditsAndDesc(string course)
-        {
-            try
-            {
+                //make the variable to return and navigate to the webpage
                 List<string> answer = new List<string>();
                 _driver.Navigate().GoToUrl("https://catalog.utah.edu");
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"top\"]/div/div[3]/div/nav/ul/li[3]")));
@@ -105,29 +39,56 @@ namespace WebScraper
                 coursepath.SendKeys(course);
                 try
                 {
+                    //try to send the keys to search for the class
                     wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a")));
                     coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a"));
+                    //check to see if the course path is the correct one.
+                    if (coursepath.Text != course)
+                    {
+                        if (once)
+                        {
+                            _driver.Quit();
+                        }
+                        return null;
+                    }
                 }
                 catch
                 {
                     try
                     {
+                        //sometimes it populates too quick so delete the input and reinput the course
                         coursepath = _driver.FindElement(By.XPath("//*[@id=\"kuali-catalog-main\"]/div/div[1]/div[1]/button/i/i"));
                         coursepath.Click();
                         coursepath = _driver.FindElement(By.Id("Search"));
                         coursepath.SendKeys(course);
                         wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a")));
                         coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/table/tbody/tr/th/a"));
+                        //check to see if the course path is the correct one.
+                        if (coursepath.Text != course)
+                        {
+                            if (once)
+                            {
+                                _driver.Quit();
+                            }
+                            return null;
+                        }
                     }
                     catch
                     {
+                        if (once)
+                        {
+                            _driver.Quit();
+                        }
                         return null;
                     }
                 }
+                //click on the course
                 coursepath.Click();
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[2]/div/div/div")));
                 coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[2]/div/div/div"));
+                //add the course credits to the array
                 answer.Add(coursepath.Text);
+                //sometimes the div where the description is changes so first check 6 then check 4. If 6 is less than 50 characters go to 4.
                 try
                 {
                     coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[6]/div/div"));
@@ -142,11 +103,21 @@ namespace WebScraper
                     coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div"));
                 }
                 answer.Add(coursepath.Text);
+                if(once)
+                {
+                    _driver.Quit();
+                }
                 return answer;
             }
+            //catch all errors and return null after possibly quitting the driver
             catch
             {
+                if(once)
+                {
+                    _driver.Quit();
+                }
                 return null;
+                
             }
         }
 
@@ -156,17 +127,21 @@ namespace WebScraper
         {
             try
             {
+                //error checking on the input and to set the count to 100 if not previously set
                 if (count == null || count == "")
                 {
                     count = "100";
                 }
+                //go to the url and click on the link at the bottom for the seating availablity
                 _driver.Navigate().GoToUrl(url);
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("/html/body/section/main/div[2]/a")));
                 var element = _driver.FindElement(By.XPath("/html/body/section/main/div[2]/a"));
                 element.Click();
                 wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//*[@id=\"seatingAvailabilityTable\"]/tbody")));
                 element = _driver.FindElement(By.XPath("//*[@id=\"seatingAvailabilityTable\"]/tbody"));
+                //get all the data from the webpage
                 var rows = element.FindElements(By.TagName("tr"));
+                //make a dictionary to store the values
                 Dictionary<int, List<string>> finalValues = new Dictionary<int, List<string>>();
                 int counter = 0;
                 int totalcounter = 0;
@@ -174,12 +149,14 @@ namespace WebScraper
                 foreach (var row in rows)
                 {
                     var listrow = row.FindElements(By.TagName("td"));
+                    //make sure the data is what want as per the assignment documentation
                     if (listrow.ElementAt(3).Text != "001" || Int32.Parse(listrow.ElementAt(2).Text) < 1000 || Int32.Parse(listrow.ElementAt(2).Text) > 7000 || listrow.ElementAt(4).Text.Contains("Seminar") || listrow.ElementAt(4).Text.Contains("Special Topics"))
                     {
                         continue;
                     }
                     else
                     {
+                        //set all the values but the description and the course credits in the dictionary. They will be added later
                         finalValues.Add(counter++, new List<string>()
                         {
                         listrow.ElementAt(1).Text,
@@ -196,12 +173,12 @@ namespace WebScraper
                         break;
                     }
                 }
-
+                //for all the values in the dicitonary, get the course name and search for the description and credits on a different website
                 foreach (var w in finalValues.Keys)
                 {
                     string course = finalValues[w][0];
                     course += finalValues[w][1];
-                    List<string> templist = getCreditsAndDesc(course);
+                    List<string> templist = getCreditsAndDesc(course,false);
                     if (templist == null)
                     {
                         _driver.Quit();
@@ -210,9 +187,11 @@ namespace WebScraper
                     finalValues[w].Add(templist[0]);
                     finalValues[w].Add(templist[1]);
                 }
+                //quit the driver and return the dictionary
                 _driver.Quit();
                 return finalValues;
             }
+            //if anything fails do this
             catch
             {
                 _driver.Quit();
