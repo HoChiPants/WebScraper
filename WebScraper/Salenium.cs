@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//Author Austin Stephens
 
 namespace WebScraper
 {
@@ -21,8 +22,6 @@ namespace WebScraper
             _driver = new ChromeDriver();
             wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
         }
-        
-
 
         //This is to get the credits and description. The first parameter is the course name, the second is if you only want the description or both. This is because this method is called by another and the driver needs to stay up
         public List<string> getCreditsAndDesc(string course, bool once)

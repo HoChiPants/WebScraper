@@ -69,11 +69,7 @@ namespace WebScraper
                 salenium = new Salenium();
                 setDataGrid(salenium.getEnrollments("https://student.apps.utah.edu/uofu/stu/ClassSchedules/main/1" + _year + _semester + "/class_list.html?subject=CS", _year,_semester, textBox3.Text));
                 //clear year and semster global variables and clears the text box
-                Year.Text = string.Empty;
-                Semester.Text = string.Empty;
-                _year = null;
-                _semester = 0;
-                textBox3.Text = string.Empty;
+                makeAllNull();
             }
             else if (_dep_num != null)
             {
@@ -95,8 +91,7 @@ namespace WebScraper
                     textBox2.Text += newLine;
                 }
                 //clear the text box and the global variable
-                textBox1.Clear();
-                _dep_num = null;
+                makeAllNull();
             }
             else
             {
@@ -200,6 +195,18 @@ namespace WebScraper
             {
                 return "Fall";
             }
+        }
+
+        private void makeAllNull()
+        {
+            _semester = 0;
+            _year = null;
+            _dep_num = null;
+            Year.Text = "Year";
+            Semester.Text = "Semester";
+            textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
+            textBox3.Text = string.Empty;
         }
 
     }
