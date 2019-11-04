@@ -45,10 +45,7 @@ namespace WebScraper
                     //check to see if the course path is the correct one.
                     if (coursepath.Text != course)
                     {
-                        if (once)
-                        {
-                            _driver.Quit();
-                        }
+                        CheckRun(once);
                         return null;
                     }
                 }
@@ -66,19 +63,13 @@ namespace WebScraper
                         //check to see if the course path is the correct one.
                         if (coursepath.Text != course)
                         {
-                            if (once)
-                            {
-                                _driver.Quit();
-                            }
+                            CheckRun(once);
                             return null;
                         }
                     }
                     catch
                     {
-                        if (once)
-                        {
-                            _driver.Quit();
-                        }
+                        CheckRun(once);
                         return null;
                     }
                 }
@@ -103,19 +94,13 @@ namespace WebScraper
                     coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div"));
                 }
                 answer.Add(coursepath.Text);
-                if(once)
-                {
-                    _driver.Quit();
-                }
+                CheckRun(once);
                 return answer;
             }
             //catch all errors and return null after possibly quitting the driver
             catch
             {
-                if(once)
-                {
-                    _driver.Quit();
-                }
+                CheckRun(once);
                 return null;
                 
             }
@@ -198,6 +183,13 @@ namespace WebScraper
                 return null;
             }
             
+        }
+        private void CheckRun(bool once)
+        {
+            if (once)
+            {
+                _driver.Quit();
+            }
         }
     }
 }
