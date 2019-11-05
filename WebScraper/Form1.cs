@@ -85,11 +85,18 @@ namespace WebScraper
                 }
                 else
                 {
-                    //formats the textbox to loook better
-                    textBox2.Text += _dep_num + ":" + newLine;
-                    textBox2.Text += des;
-                    textBox2.Text += newLine;
-                    textBox2.Text += newLine;
+                    if (des.Length > 15)
+                    {
+                        //formats the textbox to loook better
+                        textBox2.Text += _dep_num + ":" + newLine;
+                        textBox2.Text += des;
+                        textBox2.Text += newLine;
+                        textBox2.Text += newLine;
+                    }
+                    else
+                    {
+                        textBox2.Text += "Class Not Found" + newLine + newLine;
+                    }
                 }
                 //clear the text box and the global variable
                 makeAllNull();
@@ -127,7 +134,14 @@ namespace WebScraper
             foreach (int col in dict.Keys)
             {
                 //pupulates the datagridview with the dictionary of data you just retrieved
-                dataGridView1.Rows.Add(dict[col][0],dict[col][1], dict[col][2], dict[col][3], dict[col][6], getsemester(dict[col][4]), dict[col][5], dict[col][7]);
+                if (dict[col].Count > 4)
+                {
+                    dataGridView1.Rows.Add(dict[col][0], dict[col][1], dict[col][5], dict[col][7], dict[col][2], getsemester(dict[col][3]), dict[col][4], dict[col][6]);
+                }
+                else
+                {
+                    dataGridView1.Rows.Add("Data Not Found", "", "", "", "", "", "", "");
+                }
             }
     
         }
@@ -162,12 +176,12 @@ namespace WebScraper
                 //saves the datagridview as a csv file format
                 var sb = new StringBuilder();
 
-                var headers = dataGridView1.Columns.Cast<DataGridViewColumn>();
-                sb.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+                
 
                 foreach (DataGridViewRow row in dataGridView1.Rows)
                 {
                     var cells = row.Cells.Cast<DataGridViewCell>();
+                    
                     sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
                 }
                 sb.Remove(sb.Length - 25, 25);

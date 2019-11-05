@@ -45,7 +45,7 @@ namespace WebScraper
                     if (coursepath.Text != course)
                     {
                         CheckRun(once);
-                        return null;
+                        return new List<string>() { "","","" };
                     }
                 }
                 catch
@@ -63,13 +63,13 @@ namespace WebScraper
                         if (coursepath.Text != course)
                         {
                             CheckRun(once);
-                            return null;
+                            return new List<string>(){"","",""};
                         }
                     }
                     catch
                     {
                         CheckRun(once);
-                        return null;
+                        return new List<string>() { "","","" };
                     }
                 }
                 //click on the course
@@ -93,6 +93,8 @@ namespace WebScraper
                     coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[4]/div/div"));
                 }
                 answer.Add(coursepath.Text);
+                coursepath = _driver.FindElement(By.XPath("//*[@id=\"__KUALI_TLP\"]/div/div/div[1]/div/div"));
+                answer.Add(coursepath.Text);
                 CheckRun(once);
                 return answer;
             }
@@ -100,8 +102,8 @@ namespace WebScraper
             catch
             {
                 CheckRun(once);
-                return null;
-                
+                return new List<string>() { "","","" };
+
             }
         }
 
@@ -145,8 +147,7 @@ namespace WebScraper
                         {
                         listrow.ElementAt(1).Text,
                         listrow.ElementAt(2).Text,
-                        listrow.ElementAt(4).Text,
-                        listrow.ElementAt(7).Text,
+                        listrow.ElementAt(6).Text,
                         semester.ToString(),
                         year,
                         });
@@ -158,28 +159,32 @@ namespace WebScraper
                         }
                     
                 }
+                List<int> keys = new List<int>(finalValues.Keys);
                 //for all the values in the dicitonary, get the course name and search for the description and credits on a different website
-                foreach (var w in finalValues.Keys)
+                foreach (int w in keys)
                 {
                     string course = finalValues[w][0];
                     course += finalValues[w][1];
                     List<string> templist = getCreditsAndDesc(course,false);
-                    if (templist == null)
+                    if (templist[0] == "")
                     {
-                        _driver.Quit();
-                        return null;
+                        finalValues[w] = new List<string>() { "no data found" };
                     }
-                    finalValues[w].Add(templist[0]);
-                    finalValues[w].Add(templist[1]);
+                    else
+                    {
+                        finalValues[w].Add(templist[0]);
+                        finalValues[w].Add(templist[1]);
+                        finalValues[w].Add(templist[2]);
+                    }
                 }
                 //quit the driver and return the dictionary
                 _driver.Quit();
                 return finalValues;
             }
             //if anything fails do this
-            catch
+            catch (Exception e)
             {
-                _driver.Quit();
+                Console.WriteLine(e);
                 return null;
             }
             
